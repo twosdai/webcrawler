@@ -178,7 +178,11 @@ async function isAllowedByRobots(urlString) {
 async function downloadImage(url) {
   const hash = crypto.createHash("md5").update(url).digest("hex");
   const filePath = path.join(__dirname, "downloaded_images", hash);
+  // Check if the directory exists, if not create the directory
 
+  if (!fs.existsSync(path.join(__dirname, "downloaded_images"))) {
+    fs.mkdirSync(path.join(__dirname, "downloaded_images"));
+  }
   const file = fs.createWriteStream(filePath);
   return new Promise((resolve, reject) => {
     https
